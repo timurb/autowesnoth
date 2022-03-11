@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WMLParser {
+public class WMLReader {
     final static Pattern comment = Pattern.compile("^#.*");
     final static Pattern macro = Pattern.compile("^\\{.*}$");
     final static Pattern tag_open = Pattern.compile("^\\[([a-zA-Z0-9_]+)]");
@@ -18,7 +18,7 @@ public class WMLParser {
     final static Pattern assignment = Pattern.compile("^([a-zA-Z0-9_, ]+)=(.*)");
     private final Stream<String> stream;
 
-    WMLParser(Stream<String> stream) {
+    WMLReader(Stream<String> stream) {
         this.stream = stream;
     }
 
@@ -37,8 +37,13 @@ public class WMLParser {
         if (match.lookingAt()) {
             var keys = match.group(1).split(",");
             var values = match.group(2).split(",");
-            return Streams.zip(Stream.of(keys), Stream.of(values), Maps::immutableEntry)
+
+            if (keys.length > 1)
+                return Streams.zip(Stream.of(keys), Stream.of(values), Maps::immutableEntry)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            else {
+                return Map.of(match.group(1), match.group(2));
+            }
         }
         return null;
     }
