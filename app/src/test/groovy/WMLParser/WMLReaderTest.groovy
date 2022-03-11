@@ -63,7 +63,7 @@ class WMLReaderTest extends Specification {
 
         then:
         result.name == "_default"
-        result.values[0].name == "unit_type"
-        result.values[0].values[0] == Map.of("id", "Elvish Archer")
+        result.tags[0].name == "unit_type"
+        result.tags[0].attributes.get("id") == "Elvish Archer"
     }
 }

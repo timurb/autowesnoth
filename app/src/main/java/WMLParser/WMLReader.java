@@ -63,7 +63,7 @@ public class WMLReader {
 
             var newTag = matchTag(elem, tag_open);
             if (newTag != null) {
-                head.values.add(newTag);
+                head.tags.add(newTag);
                 heads.push(newTag);
                 continue;
             }
@@ -76,7 +76,7 @@ public class WMLReader {
 
             var attribute = matchAttribute(elem);
             if (attribute != null) {
-                head.values.add(attribute);
+                head.attributes.putAll(attribute);
                 continue;
             }
 
