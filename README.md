@@ -25,10 +25,10 @@ No executable is created nor any interface to use etc.
 This is very counter-productive move for any real world scenario of game building but the goal of this project is not productive game development.
 
 1.1. ANTLR for parsing Wesnoth seems to be too complex and heavyweight.
-There is a [parser for WML files](https://github.com/some1one/wesnoth-wml-parser) which compiles and integrates to Java just fine but it crashes on some stock files so I chose the path to doing simple parsing myself.
+There is a [parser for WML files](https://github.com/some1one/wesnoth-wml-parser) which compiles and integrates to Java just fine but it crashes on some stock files so I chose the path to implementing simple parsing myself.
 
 1.2. Iteration over lines from WML file using [Java Stream API](https://dev.java/learn/the-stream-api/) doesn't seem to be viable: Stream API is apparently quite different to iterators in Python and Ruby - Java streams can be parallelized and otherwise modified and this requires quite different coding practices (seem to be overweight for a simple file parsing). In Ruby/Python iterators is mostly a different syntax for loops while Java streams are different.
 
-1.3. Java has iterating for loop which worked quite fine. I had to create an object for storing the WML tags and attributes according to [spec](https://wiki.wesnoth.org/SyntaxWML). No semantic processing is done, just an AST is built.
+1.3. Java has iterating `for` loop format which worked quite fine for that task. For storing the data I had to create an object for storing the WML tags and attributes according to [spec](https://wiki.wesnoth.org/SyntaxWML). No semantic processing is done, just an AST is built.
 
 1.4. Creating unit object from the AST - in progress.
