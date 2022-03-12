@@ -9,16 +9,23 @@ class WMLUnitParserTest extends Specification {
         def stream = WMLReaderTest.class.getClassLoader().getResourceAsStream("Archer.cfg")
         def parser = new WMLReader(stream.readLines().stream())
         WMLTag raw_data = parser.parse()
-        def attributes = Map.of(
-                "id", "Elvish Archer",
-                "name", "Elvish Archer",
-                "race", "elf",
-                "gender", "male,female",
-                "alignment", "neutral",
-                "image", "units/elves-wood/archer.png",
-                "hitpoints", 29,
-                "movement", 6,
-                "advances_to", "Elvish Ranger,Elvish Marksman"
+        def attributes = Map.ofEntries(
+                Map.entry("a", "b"),
+                Map.entry("id", "Elvish Archer"),
+                Map.entry("name", "Elvish Archer"),
+                Map.entry("race", "elf"),
+                Map.entry("gender", "male,female"),
+                Map.entry("alignment", "neutral"),
+                Map.entry("image", "units/elves-wood/archer.png"),
+                Map.entry("hitpoints", 29),
+                Map.entry("movement", 6),
+                Map.entry("advances_to", "Elvish Ranger,Elvish Marksman"),
+                Map.entry("usage", "archer"),
+                Map.entry("description", "As primarily foragers and hunters, most elves learn to become proficient archers from a young age. Besides being only a practical skill, archery is also a common pastime and many competitions are held in sport for the entertainment of spectators and participants alike. This ability is readily turned to battle in times of war, where many elves will wield bows as their weapons of choice. Though not as sturdy as their human or orc counterparts, Elvish archers are still effective combatants, especially when fighting from the safety of their forests."),
+                Map.entry("experience", 44),
+                Map.entry("level", 1),
+                Map.entry("cost", 17),
+                Map.entry("movement_type", "woodland")
         )
 
         when:
