@@ -1,22 +1,21 @@
 package WMLParser;
 
+import utils.PatternMatcher;
+
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class WMLAttribute {
     static Pattern matchGettext = Pattern.compile("^_ \"(.*)\"$");
+    static Pattern matchQuote = Pattern.compile("^\"(.*)\"$");
+    static Pattern doubleQuote = Pattern.compile("\"\"");
+
     String value;
     Boolean gettext = false;
     String text;
 
     WMLAttribute(String text) {
         this.text = text;
-    }
-
-    private static String isGettext(String string) {
-        var match = matchGettext.matcher(string);
-        if (match.lookingAt()) return match.group(1);
-
-        return null;
     }
 
     private static String unquote(String string) {
@@ -26,20 +25,38 @@ public class WMLAttribute {
     WMLAttribute parse() {
         var parsed = text.strip();
 
-        if (isGettext(parsed) != null) {
-            parsed = isGettext(parsed);
+        if (PatternMatcher.match(parsed, matchGettext) != null) {
+            parsed = PatternMatcher.match(parsed, matchGettext);
             gettext = true;
         }
+
+        if (PatternMatcher.match(parsed, matchQuote) != null) {
+            parsed = PatternMatcher.match(parsed, matchQuote);
+        }
+
+        parsed = parsed.replaceAll(doubleQuote.pattern(), "\"");
 
         value = parsed;
         return this;
     }
 
-    public String value() {
-        return value;
+    @Override
+    public String toString() {
+        return "WMLAttribute{" +
+                "value='" + value + '\'' +
+                ", gettext=" + gettext +
+                '}';
     }
 
-    public Boolean gettext() {
-        return gettext;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WMLAttribute that)) return false;
+        return Objects.equals(value, that.value) && gettext.equals(that.gettext);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, gettext);
     }
 }
