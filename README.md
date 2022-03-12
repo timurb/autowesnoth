@@ -29,6 +29,9 @@ There is a [parser for WML files](https://github.com/some1one/wesnoth-wml-parser
 
 1.2. Iteration over lines from WML file using [Java Stream API](https://dev.java/learn/the-stream-api/) doesn't seem to be viable: Stream API is apparently quite different to iterators in Python and Ruby - Java streams can be parallelized and otherwise modified and this requires quite different coding practices (seem to be overweight for a simple file parsing). In Ruby/Python iterators is mostly a different syntax for loops while Java streams are different.
 
-1.3. Java has iterating `for` loop format which worked quite fine for that task. For storing the data I had to create an object for storing the WML tags and attributes according to [spec](https://wiki.wesnoth.org/SyntaxWML). No semantic processing is done, just an AST is built.
+1.3. Java has iterating `for` loop format which worked quite fine for that task. For storing the data I had to create an
+object for storing the WML tags and attributes according to [spec](https://wiki.wesnoth.org/SyntaxWML). No semantic
+processing is done, just an AST is built.
 
-1.4. Creating unit object from the AST - in progress.
+1.4. Refactoring with IDE is fantastic. Static types push me to creating classes for all objects I use (which is fine) -
+in Ruby/Python I'd probably have less types.
