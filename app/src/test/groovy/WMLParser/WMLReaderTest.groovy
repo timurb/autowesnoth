@@ -5,18 +5,10 @@ import spock.lang.Specification
 import java.util.stream.Stream
 
 class WMLReaderTest extends Specification {
-    def "reader parses tags"() {
-        when:
-        def result = WMLReader.matchTag("[foo]", WMLReader.tag_open)
-
-        then:
-        result == new WMLTag("foo")
-    }
-
     def "reader parses single assignments"() {
         when:
         def result = WMLReader.matchAttribute("a=b")
-        def target = HashMap.of("a", "b")
+        def target = HashMap.of("a", new WMLAttribute("b").parse())
 
         then:
         result == target
@@ -25,7 +17,10 @@ class WMLReaderTest extends Specification {
     def "reader parses multiple assignments"() {
         when:
         def result = WMLReader.matchAttribute("a,b=1,2")
-        def target = HashMap.of("a", "1", "b", "2")
+        def target = HashMap.of(
+                "a", new WMLAttribute("1").parse(),
+                "b", new WMLAttribute("2").parse()
+        )
 
         then:
         result == target
@@ -34,7 +29,8 @@ class WMLReaderTest extends Specification {
     def "reader parses commas in right hand side correctly"() {
         when:
         def result = WMLReader.matchAttribute("advances_to=Elvish Ranger,Elvish Marksman")
-        def target = HashMap.of("advances_to", "Elvish Ranger,Elvish Marksman")
+        def target = HashMap.of(
+                "advances_to", new WMLAttribute("Elvish Ranger,Elvish Marksman").parse())
 
         then:
         result == target
@@ -64,6 +60,6 @@ class WMLReaderTest extends Specification {
         then:
         result.name == "_default"
         result.tags[0].name == "unit_type"
-        result.tags[0].attributes.get("id") == "Elvish Archer"
+        result.tags[0].attributes.get("id").value == "Elvish Archer"
     }
 }

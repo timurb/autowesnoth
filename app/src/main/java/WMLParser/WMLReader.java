@@ -23,7 +23,7 @@ public class WMLReader {
         this.stream = stream;
     }
 
-    private static Map<String, String> matchAttribute(String line) {
+    private static Map<String, WMLAttribute> matchAttribute(String line) {
         var match = assignment.matcher(line);
 
         if (match.lookingAt()) {
@@ -31,10 +31,10 @@ public class WMLReader {
             var values = match.group(2).split(",");
 
             if (keys.length > 1)
-                return Streams.zip(Stream.of(keys), Stream.of(values), Maps::immutableEntry)
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                return Streams.zip(Stream.of(keys), Stream.of(values).map(WMLAttribute::new).map(WMLAttribute::parse), Maps::immutableEntry)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             else {
-                return Map.of(match.group(1), match.group(2));
+                return Map.of(match.group(1), new WMLAttribute(match.group(2)).parse());
             }
         }
         return null;
@@ -53,7 +53,7 @@ public class WMLReader {
 
             var head = heads.peek();
 
-            var newTagName = PatternMatcher.matchPattern(elem, tag_open);
+            var newTagName = PatternMatcher.match(elem, tag_open);
             if (newTagName != null) {
                 var newTag = new WMLTag(newTagName);
                 head.tags.add(newTag);
@@ -61,7 +61,7 @@ public class WMLReader {
                 continue;
             }
 
-            var closeTag = PatternMatcher.matchPattern(elem, tag_close);
+            var closeTag = PatternMatcher.match(elem, tag_close);
             if (closeTag != null) {
                 var popped = heads.pop();
                 continue;

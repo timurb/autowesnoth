@@ -7,7 +7,7 @@ import java.util.Objects;
 public class WMLTag {
     public final String name;
     public final ArrayList<WMLTag> tags;
-    public final HashMap<String, String> attributes;
+    public final HashMap<String, WMLAttribute> attributes;
 
     WMLTag(String name) {
         this.name = name;
