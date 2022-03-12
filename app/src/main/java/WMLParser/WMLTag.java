@@ -19,8 +19,8 @@ public class WMLTag {
     public String toString() {
         return "WMLTag{" +
                 "name='" + name + '\'' +
-                ", tags=" + tags +
-                ", values=" + attributes +
+                ",\n tags=" + tags +
+                ",\n values=" + attributes +
                 '}';
     }
 

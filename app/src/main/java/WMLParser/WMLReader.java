@@ -2,6 +2,7 @@ package WMLParser;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
+import utils.PatternMatcher;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,15 +21,6 @@ public class WMLReader {
 
     WMLReader(Stream<String> stream) {
         this.stream = stream;
-    }
-
-    private static WMLTag matchTag(String elem, Pattern pattern) {
-        var match = pattern.matcher(elem);
-        if (match.lookingAt()) {
-            var name = match.group(1);
-            return new WMLTag(name);
-        }
-        return null;
     }
 
     private static Map<String, String> matchAttribute(String line) {
@@ -61,14 +53,15 @@ public class WMLReader {
 
             var head = heads.peek();
 
-            var newTag = matchTag(elem, tag_open);
-            if (newTag != null) {
+            var newTagName = PatternMatcher.matchPattern(elem, tag_open);
+            if (newTagName != null) {
+                var newTag = new WMLTag(newTagName);
                 head.tags.add(newTag);
                 heads.push(newTag);
                 continue;
             }
 
-            var closeTag = matchTag(elem, tag_close);
+            var closeTag = PatternMatcher.matchPattern(elem, tag_close);
             if (closeTag != null) {
                 var popped = heads.pop();
                 continue;
