@@ -3,27 +3,27 @@ package WMLParser
 import AutoWesnoth.Unit
 import spock.lang.Specification
 
-import java.nio.file.Paths
-
 class WMLUnitParserTest extends Specification {
     def "parser builds units"() {
         setup:
         def stream = WMLReaderTest.class.getClassLoader().getResourceAsStream("Archer.cfg")
         def parser = new WMLReader(stream.readLines().stream())
         WMLTag raw_data = parser.parse()
+        def attributes = Map.of(
+                "id", "Elvish Archer",
+                "name", "Elvish Archer",
+                "race", "elf",
+                "gender", "male,female",
+                "alignment", "neutral",
+                "image", "units/elves-wood/archer.png",
+                "hitpoints", 29,
+                "movement", 6,
+                "advances_to", "Elvish Ranger,Elvish Marksman"
+        )
 
         when:
         def unit = new WMLUnitParser(raw_data).parse()
-        def target = new Unit()
-        target.id = "Elvish Archer"
-        target.name = "Elvish Archer"
-        target.race = "elf"
-        target.gender = "male,female"
-        target.alignment = "neutral"
-        target.image = Paths.get("units/elves-wood/archer.png")
-        target.hitpoints = 29
-        target.movement = 6
-        target.advances_to = "Elvish Ranger,Elvish Marksman"
+        def target = new Unit("Elvish Archer", attributes)
 
         then:
         unit == target
