@@ -40,10 +40,12 @@ class WMLAttributeTest extends Specification {
         setup:
         def attr1 = new WMLAttribute("attr1")
         def attr2 = new WMLAttribute("_ \"attr2\"")
+        def attr3 = new WMLAttribute("_\"attr3\"")
 
         when:
         attr1.parse()
         attr2.parse()
+        attr3.parse()
 
         then:
         attr1.value == "attr1"
@@ -51,5 +53,8 @@ class WMLAttributeTest extends Specification {
 
         attr2.value == "attr2"
         attr2.gettext == true
+
+        attr3.value == "attr3"
+        attr3.gettext == true
     }
 }

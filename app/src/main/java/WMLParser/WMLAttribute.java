@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class WMLAttribute {
-    static Pattern matchGettext = Pattern.compile("^_ \"(.*)\"$");
+    static Pattern matchGettext = Pattern.compile("^_\s*\"(.*)\"$");
     static Pattern matchQuote = Pattern.compile("^\"(.*)\"$");
     static Pattern doubleQuote = Pattern.compile("\"\"");
 
@@ -38,6 +38,10 @@ public class WMLAttribute {
 
         value = parsed;
         return this;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
