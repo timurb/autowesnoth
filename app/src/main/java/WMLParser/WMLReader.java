@@ -40,15 +40,27 @@ public class WMLReader {
         return null;
     }
 
+    private static String prepareString(String line) {
+        return line.strip();
+    }
+
+    private static String parseComments(String line) {
+        return line.replaceAll(comment.pattern(), "");
+    }
+
+    private static String parseMacros(String line) {
+        return line.replaceAll(macro.pattern(), "");    // STUB
+    }
+
     WMLTag parse() throws Exception {
         WMLTag tagTree = new WMLTag("_default");
         LinkedList<WMLTag> heads = new LinkedList<>();
         heads.push(tagTree);
 
         for (var elem : stream.toList()) {
-            elem = elem.strip();
-            elem = elem.replaceAll(comment.pattern(), ""); // comment
-            elem = elem.replaceAll(macro.pattern(), "");   // macros
+            elem = prepareString(elem);
+            elem = parseComments(elem);
+            elem = parseMacros(elem);
             if (elem.isEmpty()) continue;
 
             var head = heads.peek();
