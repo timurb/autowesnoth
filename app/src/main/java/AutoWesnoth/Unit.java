@@ -129,7 +129,7 @@ public class Unit {
     }
 
     public void setRecallCost(Integer recall_cost) {
-        this.recall_cost = cost;
+        this.recall_cost = recall_cost;
     }
 
     public void setRecallCost(Object recall_cost) {
@@ -144,18 +144,19 @@ public class Unit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Unit unit)) return false;
-        return id.equals(unit.id) && Objects.equals(name, unit.name) && Objects.equals(race, unit.race) && Objects.equals(gender, unit.gender) && Objects.equals(alignment, unit.alignment) && Objects.equals(image, unit.image) && Objects.equals(description, unit.description) && Objects.equals(usage, unit.usage) && Objects.equals(hitpoints, unit.hitpoints) && Objects.equals(movement, unit.movement) && Objects.equals(experience, unit.experience) && Objects.equals(level, unit.level) && Objects.equals(cost, unit.cost) && Objects.equals(recall_cost, unit.recall_cost) && Objects.equals(advances_to, unit.advances_to) && Objects.equals(movement_type, unit.movement_type) && attacks.equals(unit.attacks);
+        return id.equals(unit.id) && attacks.equals(unit.attacks) && Objects.equals(name, unit.name) && Objects.equals(race, unit.race) && Objects.equals(gender, unit.gender) && Objects.equals(alignment, unit.alignment) && Objects.equals(image, unit.image) && Objects.equals(description, unit.description) && Objects.equals(usage, unit.usage) && Objects.equals(hitpoints, unit.hitpoints) && Objects.equals(movement, unit.movement) && Objects.equals(experience, unit.experience) && Objects.equals(level, unit.level) && Objects.equals(cost, unit.cost) && Objects.equals(recall_cost, unit.recall_cost) && Objects.equals(advances_to, unit.advances_to) && Objects.equals(movement_type, unit.movement_type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, race, gender, alignment, image, description, usage, hitpoints, movement, experience, level, cost, recall_cost, advances_to, movement_type, attacks);
+        return Objects.hash(id, attacks, name, race, gender, alignment, image, description, usage, hitpoints, movement, experience, level, cost, recall_cost, advances_to, movement_type);
     }
 
     @Override
     public String toString() {
         return "Unit{" +
                 "id='" + id + '\'' +
+                ", attacks=" + attacks +
                 ", name='" + name + '\'' +
                 ", race='" + race + '\'' +
                 ", gender='" + gender + '\'' +
@@ -168,10 +169,8 @@ public class Unit {
                 ", experience=" + experience +
                 ", level=" + level +
                 ", cost=" + cost +
-                ", recall_cost=" + recall_cost +
                 ", advances_to='" + advances_to + '\'' +
                 ", movement_type='" + movement_type + '\'' +
-                ", attacks=" + attacks +
                 '}';
     }
 }

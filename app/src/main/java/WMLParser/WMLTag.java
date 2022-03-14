@@ -17,10 +17,10 @@ public class WMLTag {
 
     @Override
     public String toString() {
-        return "WMLTag{" +
+        return "\nWMLTag{" +
                 "name='" + name + '\'' +
-                ",\n tags=" + tags +
-                ",\n values=" + attributes +
+                ",\ntags=" + tags +
+                ",\nvalues=" + attributes +
                 '}';
     }
 

@@ -1,5 +1,6 @@
 package WMLParser
 
+import AutoWesnoth.Attack
 import AutoWesnoth.Unit
 import spock.lang.Specification
 
@@ -27,12 +28,33 @@ class WMLUnitParserTest extends Specification {
                 Map.entry("cost", 17),
                 Map.entry("movement_type", "woodland")
         )
+        HashMap<String, String> attack1 = HashMap.ofEntries(
+                Map.entry("name", "sword"),
+                Map.entry("description", "sword"),
+                Map.entry("icon", "attacks/sword-elven.png"),
+                Map.entry("type", "blade"),
+                Map.entry("range", "melee"),
+                Map.entry("damage", "5"),
+                Map.entry("number", "2"),
+        )
+        HashMap<String, String> attack2 = HashMap.ofEntries(
+                Map.entry("name", "bow"),
+                Map.entry("description", "bow"),
+                Map.entry("icon", "attacks/bow-elven.png"),
+                Map.entry("type", "pierce"),
+                Map.entry("range", "ranged"),
+                Map.entry("damage", "5"),
+                Map.entry("number", "4"),
+        )
 
         when:
         def unit = new WMLUnitParser(raw_data).parse()
         def target = new Unit("Elvish Archer", attributes)
+        target.attacks.add(new Attack("sword", attack1))
+        target.attacks.add(new Attack("bow", attack2))
 
         then:
+        unit.attacks == target.attacks
         unit == target
     }
 
